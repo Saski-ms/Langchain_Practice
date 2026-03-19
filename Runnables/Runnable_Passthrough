@@ -1,0 +1,35 @@
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableParallel,RunnableSequence
+from langchain_core.runnables.passthrough import RunnablePassthrough
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+prompt1=PromptTemplate(
+    template='Write an essay on topic:{topic}?',
+    input_variables='topic'
+)
+
+
+prompt2=PromptTemplate(
+    template='Summarize the topic{topic}',
+    input_variables='topic'
+)
+
+parser=StrOutputParser()
+
+model=ChatOpenAI()
+
+essay=RunnableSequence(prompt1,model,parser)
+
+
+parallel_chain=RunnableParallel({
+    'essay':RunnablePassthrough(),
+    'summary':RunnableSequence(prompt2,model,parser)
+})
+
+final_chain=RunnableSequence(essay,parallel_chain)
