@@ -26,3 +26,4 @@ python-dotenv
 numpy
 scikit-learn
 torch
+pypdf
