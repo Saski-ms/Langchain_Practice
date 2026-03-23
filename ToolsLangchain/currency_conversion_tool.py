@@ -10,7 +10,7 @@ load_dotenv()
 @tool
 def currency_converter(base_curr: str, target_curr: str) -> dict:
     """Function for conversion factor calculation"""
-    url = f"https://v6.exchangerate-api.com/v6/4f939714a5b073cce0624c76/pair/{base_curr}/{target_curr}"
+    url = f"https://v6.exchangerate-api.com/v6/{api_key}/pair/{base_curr}/{target_curr}"
     response = requests.get(url)
     return response.json()
 
